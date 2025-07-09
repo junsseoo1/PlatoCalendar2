@@ -1,0 +1,36 @@
+plugins {
+    id "com.android.application" version "7.3.0" apply false // 버전은 환경에 맞게 조정
+    id "org.jetbrains.kotlin.android" version "1.7.10" apply false // Kotlin 사용하는 경우
+}
+buildscript {
+    ext.kotlin_version = '1.9.22'
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
